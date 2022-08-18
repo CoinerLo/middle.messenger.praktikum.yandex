@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "messanger",
   "scripts": {
-    "start": "parcel build src/index.pug --no-cache && node server.js --open",
+    "start": "parcel build src/index.pug --no-cache",
     "dev": "parcel src/index.pug --open",
     "build": "parcel build src/index.pug --no-cache",
     "test": "echo \"Error: no test specified\" && exit 1"
