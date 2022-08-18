@@ -1,0 +1,16 @@
+.profile_avatar {
+
+  &_photo {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 21px;
+
+    background-color: $grey;
+    border-radius: 50%;
+  }
+
+  &_title {
+    text-align: center;
+    font-size: 16px;
+  }
+}
