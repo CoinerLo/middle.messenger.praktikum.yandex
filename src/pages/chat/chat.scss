@@ -1,4 +1,17 @@
 .chat {
   height: 100%;
   display: flex;
+  
+  &_window {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px 10px;
+  }
+}
+
+.aside {
+  padding: 50px 20px;
 }
