@@ -5,17 +5,17 @@
   justify-content: center;
   align-items: center;
 
-  h1 {
+  &_title {
     font-size: 40px;
   }
 
-  h5 {
+  &_subtitle {
     margin-top: 20px;
     margin-bottom: 70px;
     font-size: 24px;
   }
 
-  a {
+  &_back {
     color: $blue;
     font-size: 14px;
   }
