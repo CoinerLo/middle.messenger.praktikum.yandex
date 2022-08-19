@@ -1,0 +1,5 @@
+extends ../../layout/main/main.pug
+include ../../components/errorMixin/errorMixin.pug
+
+block content
+  +errorMixin(500, 'Мы уже фиксим')

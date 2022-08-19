@@ -1,0 +1,12 @@
+extends ../../layout/main/main.pug
+
+block content
+  .chat
+    aside.aside
+      h3 Сайд бар, здесь будет список чатов
+    section.chat_window
+      h1 Здесь будет окно чата
+      form
+        label(for="message") Введите сообщение
+        input(type="text" name="message")#message
+        button(type="submit") Отправить

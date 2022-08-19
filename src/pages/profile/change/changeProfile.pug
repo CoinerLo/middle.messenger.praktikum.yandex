@@ -1,0 +1,12 @@
+extends ../../../layout/profile/profileLayout.pug
+include ../../../components/profileAvatar/profileAvatar.pug
+include ../../../components/profileContent/profileContent.pug
+
+block profile_avatar
+  +profileAvatar()
+
+block profile_content
+  +profileContent('pochta@yandex.ru', 'ivanivanov', 'Иван', 'Иванов', 'Иван', '+7 (909) 967 30 30')
+
+block profile_control
+  include ../../../components/saveButton/saveButton.pug

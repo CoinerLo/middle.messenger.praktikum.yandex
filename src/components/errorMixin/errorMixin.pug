@@ -1,0 +1,5 @@
+mixin errorMixin(error, descript)
+  section.error
+    h1.error_title= error
+    h2.error_subtitle= descript
+    a(href="~/src/pages/chat/chat.pug" class='error_back') Назад к чатам

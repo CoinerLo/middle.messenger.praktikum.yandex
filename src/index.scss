@@ -1,0 +1,15 @@
+@import "./styles/fonts.scss";
+@import "./styles/variables.scss";
+@import "./styles/signIn_signUp/signIn_Up.scss";
+@import "./layout/main/main.scss";
+@import "./layout/profile/profileLayout.scss";
+@import "./components/errorMixin/errorMixin.scss";
+@import "./components/backButton/backButton.scss";
+@import "./components/profileAvatar/profileAvatar.scss";
+@import "./components/profileControl/profileControl.scss";
+@import "./components/profileContent/profileContent.scss";
+@import "./components/saveButton/saveButton.scss";
+@import "./components/profilePassword/profilePassword.scss";
+@import "./pages/chat/chat.scss";
+@import "./pages/signUp/signUp.scss";
+@import "./pages/signIn/signIn.scss";
