@@ -2,6 +2,8 @@
   height: 100%;
   width: 64px;
   position: absolute;
+  top: 0;
+  left: 0;
   border-right: 1px solid $grey;
 
   &:hover {
@@ -15,7 +17,6 @@
     left: 18px;
     width: 28px;
     height: 28px;
-
     color: $white;
     background-color: $blue;
     border-radius: 50%;
