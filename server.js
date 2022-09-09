@@ -1,7 +1,7 @@
-import express from 'express';
-import fallback from 'express-history-api-fallback';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const fallback = require('express-history-api-fallback');
+const path = require('path');
+const { fileURLToPath } = require('url');
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
