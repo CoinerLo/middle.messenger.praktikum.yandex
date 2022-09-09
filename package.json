@@ -10,7 +10,6 @@
     "lint": "node_modules/.bin/eslint .",
     "style": "npx stylelint \"**/*.scss\""
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/CoinerLo/middle.messenger.praktikum.yandex.git"
