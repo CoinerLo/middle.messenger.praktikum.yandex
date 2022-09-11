@@ -1,0 +1,13 @@
+.contactList_head {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 14px;
+
+  &__transit {
+    display: block;
+    align-self: flex-end;
+    margin-bottom: 23px;
+    font-size: 12px;
+    color: $grayscale;
+  }
+}
