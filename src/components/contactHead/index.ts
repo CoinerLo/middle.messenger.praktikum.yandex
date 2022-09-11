@@ -1,8 +1,8 @@
 import Block from '../../utils/Block';
-import Search from '../search';
 import template from './contactHead.pug';
+import { Search } from '../search';
 
-class ContactHead extends Block {
+export class ContactHead extends Block {
   constructor() {
     super('div');
     this.element?.classList.add('contactList_head');
@@ -26,5 +26,3 @@ class ContactHead extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ContactHead;

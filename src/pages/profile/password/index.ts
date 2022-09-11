@@ -1,10 +1,10 @@
-import BackButton from '../../../components/backButton';
-import ProfileAvatar from '../../../components/profileAvatar';
-import ProfilePassword from '../../../components/profilePassword';
+import { BackButton } from '../../../components/backButton';
+import { ProfileAvatar } from '../../../components/profileAvatar';
+import { ProfilePassword } from '../../../components/profilePassword';
 import Block from '../../../utils/Block';
 import template from '../profile.pug';
 
-class PasswordProfile extends Block {
+export class PasswordProfile extends Block {
   constructor() {
     super('section');
     this.element?.classList.add('profile');
@@ -23,5 +23,3 @@ class PasswordProfile extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default PasswordProfile;

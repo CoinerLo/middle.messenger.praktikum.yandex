@@ -1,6 +1,6 @@
 import Block from './utils/Block';
 import template from './app.pug';
-import Header from './components/header';
+import { Header } from './components/header';
 import routes from './utils/routes';
 
 class App extends Block {

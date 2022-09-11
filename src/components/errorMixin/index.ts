@@ -6,7 +6,7 @@ interface ErrorMixinProps {
   descript: string
 }
 
-class ErrorMixin extends Block {
+export class ErrorMixin extends Block<ErrorMixinProps> {
   constructor(props: ErrorMixinProps) {
     super('section', props);
     this.element?.classList.add('error');
@@ -16,5 +16,3 @@ class ErrorMixin extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ErrorMixin;

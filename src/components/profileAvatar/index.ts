@@ -3,9 +3,12 @@ import template from './profileAvatar.pug';
 
 interface ProfileAvatarProps {
   name?: string,
+  events?: {
+    click: () => void,
+  }
 }
 
-class ProfileAvatar extends Block {
+export class ProfileAvatar extends Block<ProfileAvatarProps> {
   constructor(props: ProfileAvatarProps) {
     super('div', props);
     this.element?.classList.add('profile_avatar');
@@ -21,5 +24,3 @@ class ProfileAvatar extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ProfileAvatar;

@@ -2,8 +2,8 @@ import Block from '../../../utils/Block';
 import template from './chatWindowForm.pug';
 import clip from '../../../../static/clip.png';
 import send from '../../../../static/send.svg';
-import Input from '../../input';
-import validator from '../../../utils/validator';
+import { Input } from '../../input';
+import { validator } from '../../../utils/validator';
 
 interface ChatWindowFormProps {
   events: {
@@ -11,7 +11,7 @@ interface ChatWindowFormProps {
   }
 }
 
-class ChatWindowForm extends Block {
+export class ChatWindowForm extends Block<ChatWindowFormProps> {
   constructor(props: ChatWindowFormProps) {
     super('form', props);
     this.element?.classList.add('chat_window_form');
@@ -58,5 +58,3 @@ class ChatWindowForm extends Block {
     return this.compile(template, { ...this.props, clip, send });
   }
 }
-
-export default ChatWindowForm;

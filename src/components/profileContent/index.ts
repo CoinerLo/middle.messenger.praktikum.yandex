@@ -10,7 +10,7 @@ interface ProfileContentProps {
   phone: string,
 }
 
-class ProfileContent extends Block {
+export class ProfileContent extends Block<ProfileContentProps> {
   constructor(props: ProfileContentProps) {
     super('div', props);
     this.element?.classList.add('profile_content');
@@ -20,5 +20,3 @@ class ProfileContent extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ProfileContent;

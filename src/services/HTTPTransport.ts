@@ -1,6 +1,6 @@
 import queryStringify from '../utils/queryStringify';
 
-enum METHOD {
+enum Method {
   GET = 'GET',
   POST = 'POST',
   PUT = 'PUT',
@@ -9,7 +9,7 @@ enum METHOD {
 }
 
 interface Options {
-  method: METHOD,
+  method: Method,
   data?: Record<string, string>,
   headers?: Record<string, string>,
   timeout?: number
@@ -17,21 +17,24 @@ interface Options {
 
 class HTTPTransport {
   defaultOptions = {
-    method: METHOD.GET,
+    method: Method.GET,
     timeout: 5000,
   };
 
-  get = (url: string, options = {}) => (
-    this.request(url, { ...options, method: METHOD.GET }));
+  get = (url: string, options = {} as Options) => {
+    const data = options?.data;
+    const urlWithData = data ? `${url}${queryStringify(data)}` : url;
+    this.request(urlWithData, { ...options, method: Method.GET });
+  };
 
   post = (url: string, options = {}) => (
-    this.request(url, { ...options, method: METHOD.POST }));
+    this.request(url, { ...options, method: Method.POST }));
 
   put = (url: string, options = {}) => (
-    this.request(url, { ...options, method: METHOD.PUT }));
+    this.request(url, { ...options, method: Method.PUT }));
 
   delete = (url: string, options = {}) => (
-    this.request(url, { ...options, method: METHOD.DELETE }));
+    this.request(url, { ...options, method: Method.DELETE }));
 
   request(
     url: string,
@@ -51,14 +54,8 @@ class HTTPTransport {
       }
 
       const xhr = new XMLHttpRequest();
-      const isGet = method === METHOD.GET;
 
-      xhr.open(
-        method,
-        isGet && !!data
-          ? `${url}${queryStringify(data)}`
-          : url,
-      );
+      xhr.open(method, url);
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
@@ -74,7 +71,7 @@ class HTTPTransport {
       xhr.timeout = timeout ?? this.defaultOptions.timeout;
       xhr.ontimeout = reject;
 
-      if (isGet || !data) {
+      if (!data) {
         xhr.send();
       } else {
         xhr.send(JSON.stringify(data));

@@ -6,7 +6,7 @@ interface ChatWindowHeadProps {
   contactImg?: string,
 }
 
-class ChatWindowHead extends Block {
+export class ChatWindowHead extends Block<ChatWindowHeadProps> {
   constructor(props: ChatWindowHeadProps) {
     super('div', props);
     this.element?.classList.add('chat_window_head');
@@ -20,5 +20,3 @@ class ChatWindowHead extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ChatWindowHead;

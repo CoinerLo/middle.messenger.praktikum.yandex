@@ -1,11 +1,11 @@
-import Chat from '../pages/chat';
-import SignIn from '../pages/signIn';
-import SignUp from '../pages/signUp';
-import Error404 from '../pages/error404';
-import Error500 from '../pages/error500';
-import Profile from '../pages/profile';
-import PasswordProfile from '../pages/profile/password';
-import ChangeProfile from '../pages/profile/change';
+import { Chat } from '../pages/chat';
+import { SignIn } from '../pages/signIn';
+import { SignUp } from '../pages/signUp';
+import { Error404 } from '../pages/error404';
+import { Error500 } from '../pages/error500';
+import { Profile } from '../pages/profile';
+import { PasswordProfile } from '../pages/profile/password';
+import { ChangeProfile } from '../pages/profile/change';
 
 const routes: Record<
   string,

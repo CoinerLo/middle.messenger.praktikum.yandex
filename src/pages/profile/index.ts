@@ -1,7 +1,7 @@
-import BackButton from '../../components/backButton';
-import ProfileAvatar from '../../components/profileAvatar';
-import ProfileContent from '../../components/profileContent';
-import ProfileControl from '../../components/profileControl';
+import { BackButton } from '../../components/backButton';
+import { ProfileAvatar } from '../../components/profileAvatar';
+import { ProfileContent } from '../../components/profileContent';
+import { ProfileControl } from '../../components/profileControl';
 import Block from '../../utils/Block';
 import template from './profile.pug';
 
@@ -14,7 +14,7 @@ export const data = {
   phone: '+79099673030',
 };
 
-class Profile extends Block {
+export class Profile extends Block {
   constructor() {
     super('section');
     this.element?.classList.add('profile');
@@ -42,5 +42,3 @@ class Profile extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Profile;

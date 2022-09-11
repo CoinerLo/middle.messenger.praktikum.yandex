@@ -1,8 +1,8 @@
 import Block from '../../utils/Block';
-import Form from '../form';
 import template from './profilePassword.pug';
+import { Form } from '../form';
 
-class ProfilePassword extends Block {
+export class ProfilePassword extends Block {
   static labels = [
     { oldPass: 'Старый пароль' },
     { password: 'Новый пароль' },
@@ -50,5 +50,3 @@ class ProfilePassword extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ProfilePassword;

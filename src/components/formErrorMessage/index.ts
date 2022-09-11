@@ -6,18 +6,29 @@ interface FormErrorMessageProps {
   message?: string,
 }
 
-class FormErrorMessage extends Block {
+export class FormErrorMessage extends Block<FormErrorMessageProps> {
   constructor(props: FormErrorMessageProps) {
     super('span', props);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     this.element!.dataset.for = this.props.inputId;
-    if (!props.message) this.hide();
+    if (!props.message) {
+      this.hide();
+    }
+  }
+
+  protected componentDidUpdate(
+    _oldProps: FormErrorMessageProps,
+    newProps: FormErrorMessageProps,
+  ): boolean {
+    if (newProps.message) {
+      this.show();
+    } else {
+      this.hide();
+    }
+    return true;
   }
 
   render() {
-    if (this.props.message) this.show();
     return this.compile(template, this.props);
   }
 }
-
-export default FormErrorMessage;

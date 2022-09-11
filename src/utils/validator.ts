@@ -1,4 +1,4 @@
-const validator: Record<string, (str: string, pass?: string) => false | string> = {
+export const validator: Record<string, (str: string, pass?: string) => false | string> = {
   name(str) {
     if (str.length === 0) return 'Поле обязательно к заполнению';
     const firstLetter = str[0];
@@ -58,5 +58,3 @@ const validator: Record<string, (str: string, pass?: string) => false | string> 
     return this.password(str);
   },
 };
-
-export default validator;

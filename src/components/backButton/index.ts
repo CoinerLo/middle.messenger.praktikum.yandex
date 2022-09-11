@@ -5,7 +5,7 @@ interface BackButtonProps {
   href: string,
 }
 
-class BackButton extends Block {
+export class BackButton extends Block<BackButtonProps> {
   constructor(props: BackButtonProps) {
     super('a', props);
     this.element?.setAttribute('href', props.href);
@@ -15,5 +15,3 @@ class BackButton extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default BackButton;

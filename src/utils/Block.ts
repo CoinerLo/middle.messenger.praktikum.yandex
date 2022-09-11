@@ -23,13 +23,6 @@ class Block<P extends Record<string, any> = any> {
 
   private _meta: { tagName: string; props: P };
 
-  /** JSDoc
-   * @param {string} tagName
-   * @param {Object} props
-   *
-   * @returns {void}
-   */
-
   constructor(tagName = 'div', propsWithChildren: P = {} as P) {
     const eventBus = new EventBus();
     this.eventBus = () => eventBus;
@@ -43,7 +36,7 @@ class Block<P extends Record<string, any> = any> {
     eventBus.emit(Block.EVENTS.INIT);
   }
 
-  _getChildrenAndProps(childrenAndProps: P)
+  private _getChildrenAndProps(childrenAndProps: P)
     : { props: P, children: Record<string, Block | Block[]> } {
     const props: Record<string, unknown> = {};
     const children: Record<string, Block | Block[]> = {};
@@ -61,7 +54,7 @@ class Block<P extends Record<string, any> = any> {
     return { props: props as P, children };
   }
 
-  _registerEvents(eventBus: EventBus) {
+  private _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this._init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
@@ -74,7 +67,7 @@ class Block<P extends Record<string, any> = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
-  _componentDidMount() {
+  private _componentDidMount() {
     this.componentDidMount();
   }
 
@@ -84,7 +77,7 @@ class Block<P extends Record<string, any> = any> {
     }
   }
 
-  _render() {
+  private _render() {
     const fragment = this.render();
     const element = this.getContent();
     if (element) element.innerHTML = '';
@@ -92,16 +85,16 @@ class Block<P extends Record<string, any> = any> {
     this._addEvents();
   }
 
-  _createResources() {
+  private _createResources() {
     const { tagName } = this._meta;
     this._element = this._createDocumentElement(tagName);
   }
 
-  _createDocumentElement(tagName: string) {
+  private _createDocumentElement(tagName: string) {
     return document.createElement(tagName);
   }
 
-  _addEvents() {
+  private _addEvents() {
     const { events = {} } = this.props;
 
     Object.keys(events).forEach((eventName) => {
@@ -138,7 +131,7 @@ class Block<P extends Record<string, any> = any> {
     });
   }
 
-  _makePropsProxy(props: P) {
+  private _makePropsProxy(props: P) {
     return new Proxy(props, {
       get: (target, prop: string) => {
         const value = target[prop];

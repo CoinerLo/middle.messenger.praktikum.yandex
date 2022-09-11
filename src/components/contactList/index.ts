@@ -1,27 +1,27 @@
-import { ContactsData } from '../../pages/chat';
 import Block from '../../utils/Block';
-import Contact from './contact';
 import template from './contactList.pug';
+import { Contact } from './contact';
+import { ContactsData } from '../../pages/chat';
 
 interface ContactListProps {
   contacts: ContactsData[],
 }
 
-class ContactList extends Block {
+export class ContactList extends Block<ContactListProps> {
   constructor(props: ContactListProps) {
     super('div', props);
     this.element?.classList.add('contactList');
   }
 
   init() {
-    this.children.contacts = this.props.contacts.map((i: ContactsData) => {
-      const { messages, name, timeLastMessage } = i;
+    this.children.contacts = this.props.contacts.map((contactData: ContactsData) => {
+      const { messages, name, timeLastMessage } = contactData;
       return new Contact({
         lastMessage: messages[0],
         messages,
         name,
         timeLastMessage,
-        numUnreadMessages: i.numUnreadMessages ?? undefined,
+        numUnreadMessages: contactData.numUnreadMessages ?? undefined,
       });
     });
   }
@@ -30,5 +30,3 @@ class ContactList extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ContactList;

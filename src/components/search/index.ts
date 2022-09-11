@@ -8,7 +8,7 @@ interface SearchProps {
   }
 }
 
-class Search extends Block {
+export class Search extends Block<SearchProps> {
   constructor(props: SearchProps) {
     super('input', props);
     this.element?.classList.add('search_input');
@@ -25,5 +25,3 @@ class Search extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Search;

@@ -9,7 +9,7 @@ export interface ContactProps {
   numUnreadMessages?: number,
 }
 
-class Contact extends Block {
+export class Contact extends Block<ContactProps> {
   constructor(props: ContactProps) {
     super('div', props);
     this.element?.classList.add('contact');
@@ -19,5 +19,3 @@ class Contact extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Contact;

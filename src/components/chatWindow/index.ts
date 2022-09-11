@@ -1,9 +1,9 @@
 import { ChatData } from '../../pages/chat';
 import Block from '../../utils/Block';
 import template from './chatWindow.pug';
-import ChatWindowContent from './chatWindowContent';
-import ChatWindowForm from './chatWindowForm';
-import ChatWindowHead from './chatWindowHead';
+import { ChatWindowContent } from './chatWindowContent';
+import { ChatWindowForm } from './chatWindowForm';
+import { ChatWindowHead } from './chatWindowHead';
 
 interface ChatWindowProps {
   chatData?: ChatData,
@@ -23,7 +23,7 @@ const messages = [{
   time: '11:56',
 }];
 
-class ChatWindow extends Block {
+export class ChatWindow extends Block<ChatWindowProps> {
   constructor(props: ChatWindowProps) {
     super('section', props);
     this.element?.classList.add('chat_window');
@@ -39,7 +39,7 @@ class ChatWindow extends Block {
 
   init() {
     this.children.head = new ChatWindowHead({
-      contactName: this.props.chatData.contactName,
+      contactName: this.props.chatData?.contactName ?? 'Unknown',
     });
 
     this.children.content = new ChatWindowContent({
@@ -57,5 +57,3 @@ class ChatWindow extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ChatWindow;

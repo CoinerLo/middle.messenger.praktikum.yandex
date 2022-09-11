@@ -1,9 +1,9 @@
-import { data } from '../../pages/profile';
 import Block from '../../utils/Block';
-import Form from '../form';
-import template from './profileRedactor.pug';
+import template from './profileEdit.pug';
+import { Form } from '../form';
+import { data } from '../../pages/profile';
 
-class ProfileRedactor extends Block {
+export class ProfileEdit extends Block {
   static labels = [
     { email: 'Почта' },
     { login: 'Логин' },
@@ -41,7 +41,7 @@ class ProfileRedactor extends Block {
 
   constructor() {
     super('section');
-    this.element?.classList.add('profile_redactor');
+    this.element?.classList.add('profile_edit');
   }
 
   submit(e: SubmitEvent) {
@@ -53,8 +53,8 @@ class ProfileRedactor extends Block {
 
   init() {
     this.children.form = new Form({
-      inputsMetaData: ProfileRedactor.inputs,
-      labels: ProfileRedactor.labels,
+      inputsMetaData: ProfileEdit.inputs,
+      labels: ProfileEdit.labels,
       button: 'Сохранить',
       data,
       events: {
@@ -67,5 +67,3 @@ class ProfileRedactor extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default ProfileRedactor;

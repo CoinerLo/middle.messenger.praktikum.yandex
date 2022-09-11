@@ -1,6 +1,6 @@
-import ChatWindow from '../../components/chatWindow';
-import ContactHead from '../../components/contactHead';
-import ContactList from '../../components/contactList';
+import { ChatWindow } from '../../components/chatWindow';
+import { ContactHead } from '../../components/contactHead';
+import { ContactList } from '../../components/contactList';
 import { ContactProps } from '../../components/contactList/contact';
 import Block from '../../utils/Block';
 import template from './chat.pug';
@@ -28,7 +28,7 @@ const contacts: ContactsData[] = [{
   timeLastMessage: 'Ср',
 }];
 
-class Chat extends Block {
+export class Chat extends Block {
   constructor() {
     super('main');
     this.element?.classList.add('chat');
@@ -50,5 +50,3 @@ class Chat extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Chat;

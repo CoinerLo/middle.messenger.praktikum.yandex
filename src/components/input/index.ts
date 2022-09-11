@@ -7,27 +7,31 @@ interface InputProps {
   type: string,
   value?: string,
   placeholder?: string,
-  classInput: string,
+  classInput?: string,
   events: {
     blur: () => void;
     focus: () => void;
   }
 }
 
-class Input extends Block {
+export class Input extends Block<InputProps> {
   constructor(props: InputProps) {
     super('input', props);
     const {
-      id, name, type, value, classInput,
+      id, name, type, value,
     } = props;
     const elem = this.element as HTMLInputElement;
     if (elem) {
       elem.setAttribute('type', type);
       elem.setAttribute('name', name);
-      if (props.placeholder) elem.setAttribute('placeholder', props.placeholder);
       elem.id = id;
-      elem.classList.add(classInput);
       elem.value = value ?? '';
+      if (props.placeholder) {
+        elem.setAttribute('placeholder', props.placeholder);
+      }
+      if (props?.classInput) {
+        elem.classList.add(props.classInput);
+      }
     }
   }
 
@@ -35,5 +39,3 @@ class Input extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Input;

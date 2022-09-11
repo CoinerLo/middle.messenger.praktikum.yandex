@@ -7,7 +7,7 @@ interface MessageProps {
   isMyMess: boolean,
 }
 
-class Message extends Block {
+export class Message extends Block<MessageProps> {
   constructor(props: MessageProps) {
     super('article', props);
     this.element?.classList.add('message');
@@ -18,5 +18,3 @@ class Message extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Message;

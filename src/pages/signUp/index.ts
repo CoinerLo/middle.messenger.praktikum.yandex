@@ -1,8 +1,8 @@
-import Form from '../../components/form';
+import { Form } from '../../components/form';
 import Block from '../../utils/Block';
 import template from './signUp.pug';
 
-class SignUp extends Block {
+export class SignUp extends Block {
   static labels = [
     { email: 'Почта' },
     { login: 'Логин' },
@@ -73,5 +73,3 @@ class SignUp extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default SignUp;

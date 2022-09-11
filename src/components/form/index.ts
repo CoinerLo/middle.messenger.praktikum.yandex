@@ -1,8 +1,8 @@
 import Block from '../../utils/Block';
-import FormErrorMessage from '../formErrorMessage';
-import InputSignUpIn from '../inputSignUpIn';
-import validator from '../../utils/validator';
 import template from './form.pug';
+import { FormErrorMessage } from '../formErrorMessage';
+import { validator } from '../../utils/validator';
+import { Input } from '../input';
 
 export interface InputsMetaDataI {
   id: string,
@@ -23,19 +23,19 @@ interface FormProps {
   }
 }
 
-class Form extends Block {
+export class Form extends Block<FormProps> {
   constructor(props: FormProps) {
     super('form', props);
   }
 
   protected getErrorBlockByID(id: string) {
     return (this.children.errorsElem as Block[])
-      .filter((el) => id === el.element?.dataset.for)[0];
+      .find((el) => id === el.element?.dataset.for);
   }
 
   protected getInputElementByID(id: string) {
     return (this.children.inputs as Block[])
-      .filter((el) => id === el.element?.id)[0].element;
+      .find((el) => id === el.element?.id)?.element;
   }
 
   isValid(id: string) {
@@ -51,11 +51,11 @@ class Form extends Block {
     }
 
     if (validating) {
-      errorElem.setProps({ message: validating });
+      errorElem?.setProps({ message: validating });
       return false;
     }
 
-    errorElem.setProps({ message: '' });
+    errorElem?.setProps({ message: '' });
     return value;
   }
 
@@ -74,22 +74,24 @@ class Form extends Block {
       }
     });
     const result = Object.values(isValidById);
-    if (result.length > 0 && result.every((i) => i)) return fullData;
+    if (result.length > 0 && result.every((i) => i)) {
+      return fullData;
+    }
     return false;
   }
 
   init() {
     this.children.inputs = this.props.inputsMetaData
-      .map((i: InputsMetaDataI) => new InputSignUpIn({
-        ...i,
-        value: this.props.data ? this.props.data[i.id] : undefined,
+      .map((inputData: InputsMetaDataI) => new Input({
+        ...inputData,
+        value: this.props.data?.[inputData.id],
         events: {
-          blur: () => this.isValid(i.id),
-          focus: () => this.isValid(i.id),
+          blur: () => this.isValid(inputData.id),
+          focus: () => this.isValid(inputData.id),
         },
       }));
     this.children.errorsElem = this.props.inputsMetaData
-      .map(({ id }: InputSignUpIn) => new FormErrorMessage({
+      .map(({ id }: InputsMetaDataI) => new FormErrorMessage({
         inputId: id,
       }));
   }
@@ -98,5 +100,3 @@ class Form extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Form;

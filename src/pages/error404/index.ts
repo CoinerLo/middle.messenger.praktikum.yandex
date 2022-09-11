@@ -1,8 +1,8 @@
-import ErrorMixin from '../../components/errorMixin';
+import { ErrorMixin } from '../../components/errorMixin';
 import Block from '../../utils/Block';
 import template from './error404.pug';
 
-class Error404 extends Block {
+export class Error404 extends Block {
   constructor() {
     super('section');
     this.element?.classList.add('error');
@@ -19,5 +19,3 @@ class Error404 extends Block {
     return this.compile(template, this.props);
   }
 }
-
-export default Error404;
