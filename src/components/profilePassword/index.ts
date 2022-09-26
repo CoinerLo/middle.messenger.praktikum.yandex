@@ -1,6 +1,8 @@
 import Block from '../../utils/Block';
 import template from './profilePassword.pug';
 import { Form } from '../form';
+import UserController from '../../controllers/UserController';
+import { PasswordUpdateData } from '../../api/UserApi';
 
 export class ProfilePassword extends Block {
   static labels = [
@@ -31,8 +33,15 @@ export class ProfilePassword extends Block {
   submit(e: SubmitEvent) {
     e.preventDefault();
     const data = (this.children.password_form as Form).getData();
-    // eslint-disable-next-line no-console
-    console.log(data); // выводим в консоль данные формы, если валидация пройдена
+
+    if (data) {
+      const result: PasswordUpdateData = {
+        newPassword: data.password,
+        oldPassword: data.oldPass,
+      };
+
+      UserController.updatePassword(result);
+    }
   }
 
   init() {

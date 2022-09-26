@@ -212,9 +212,9 @@ class Block<P extends Record<string, any> = any> {
     return this.element;
   }
 
-  show() {
+  show(display?: string) {
     const content = this.getContent();
-    if (content) content.style.display = 'block';
+    if (content) content.style.display = display || 'block';
   }
 
   hide() {

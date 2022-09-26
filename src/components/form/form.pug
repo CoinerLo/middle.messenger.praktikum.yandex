@@ -8,4 +8,4 @@ each input, index in inputs
     | !{errorsElem[index]}
 button(type="submit")= button
 if redirect
-  a(href= redirect)= redirectTitle
+  | !{link}

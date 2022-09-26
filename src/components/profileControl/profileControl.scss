@@ -9,6 +9,10 @@
     width: 100%;
     padding: 10px 0;
     color: $blue;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   &__item + .profile_control__item {

@@ -1,0 +1,103 @@
+import BaseApi from './BaseApi';
+
+export interface ReadChatsData {
+  offset: number,
+  limit: number,
+  title: string,
+}
+
+export interface ReadChatUsers {
+  offset?: number,
+  limit?: number,
+  name?: string,
+  email?: string,
+}
+
+export interface AddUsersToChat {
+  users: number[],
+  chatId: number,
+}
+
+export interface DeleteUsersFromChat{
+  users: number[],
+  chatId: number,
+}
+
+export class ChatsApi extends BaseApi {
+  constructor() {
+    super('/chats');
+  }
+
+  // Получаем все чаты
+
+  getChats(data?: ReadChatsData) {
+    return this.http.get('', { data });
+  }
+
+  // Создаем чат
+
+  createChat(data: string): Promise<Record<'id', string>> {
+    return this.http.post('', { data: { title: data } });
+  }
+
+  // Удаляем чат
+
+  deleteChatById(chatId: number) {
+    return this.http.delete('', {
+      data: {
+        chatId,
+      },
+    });
+  }
+
+  // Узнаем кол-во непрочитанных сообщений
+
+  getNewMessagesCount(id: number) {
+    return this.http.get(`/new/${id}`);
+  }
+
+  // Получаем пользователей чата по id чата
+
+  getChatUsers(id: number, data: ReadChatUsers) {
+    return this.http.get(`/${id}/users`, { data });
+  }
+
+  // Добавляем пользователей в чат по его id
+
+  addUsersToChat(data: AddUsersToChat) {
+    return this.http.put('/users', { data });
+  }
+
+  // Удаляем пользователей из чата по его id
+
+  deleteUsersFromChat(data: DeleteUsersFromChat) {
+    return this.http.delete('/users', { data });
+  }
+
+  // Обновляем аватар чата
+
+  updateChatAvatar(id: number, data: FormData) {
+    return this.http.put('avatar', {
+      data: {
+        chatId: id,
+        avatar: data,
+      },
+    });
+  }
+
+  // Получаем токен для подключения к real-time чату по id чата
+
+  getToken(id: number): Promise<Record<'token', string>> {
+    return this.http.post(`/token/${id}`);
+  }
+
+  read = undefined;
+
+  create = undefined;
+
+  update = undefined;
+
+  delete = undefined;
+}
+
+export default new ChatsApi();

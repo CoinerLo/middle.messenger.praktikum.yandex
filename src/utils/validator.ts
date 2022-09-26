@@ -57,4 +57,18 @@ export const validator: Record<string, (str: string, pass?: string) => false | s
   oldPass(str) {
     return this.password(str);
   },
+  avatar(str) {
+    if (str.length === 0) return 'Нужно выбрать файл';
+    return false;
+  },
+  new_chat(str) {
+    if (str.length === 0) return 'Название не может быть пустым';
+    return false;
+  },
+  add_user_to_chat(str) {
+    return this.login(str);
+  },
+  del_user_from_chat(str) {
+    return this.login(str);
+  },
 };

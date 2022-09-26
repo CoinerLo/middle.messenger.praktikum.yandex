@@ -2,8 +2,14 @@ import Block from '../../../utils/Block';
 import template from './chatWindowForm.pug';
 import clip from '../../../../static/clip.png';
 import send from '../../../../static/send.svg';
-import { Input } from '../../input';
+import clipActive from '../../../../static/clipActive.png';
+import location from '../../../../static/location.png';
+import photoAndVideo from '../../../../static/photoAndVideo.png';
+import file from '../../../../static/file.png';
+import { Input, InputProps } from '../../input';
 import { validator } from '../../../utils/validator';
+import { PopupWindowButton } from '../../popupWindowButton';
+import { PopupWindow } from '../../popupWindow';
 
 interface ChatWindowFormProps {
   events: {
@@ -12,9 +18,40 @@ interface ChatWindowFormProps {
 }
 
 export class ChatWindowForm extends Block<ChatWindowFormProps> {
+  private isActiveMenu = false;
+
+  private static menuItems = [{
+    image: photoAndVideo,
+    title: 'Фото или Видео',
+    // MEMORY: изменим при добавлении функционала в будущих итерациях
+    // eslint-disable-next-line no-console
+    events: { click: () => console.log('Здесь будет модальное окно отправки фото или видео') },
+  }, {
+    image: file,
+    title: 'Файл',
+    // MEMORY: изменим при добавлении функционала в будущих итерациях
+    // eslint-disable-next-line no-console
+    events: { click: () => console.log('Здесь будет модальное окно отправки файлов') },
+  }, {
+    image: location,
+    title: 'Локация',
+    // MEMORY: изменим при добавлении функционала в будущих итерациях
+    // eslint-disable-next-line no-console
+    events: { click: () => console.log('Здесь будет модальное окно отправки локации') },
+  }];
+
   constructor(props: ChatWindowFormProps) {
     super('form', props);
     this.element?.classList.add('chat_window_form');
+  }
+
+  onClickMenu() {
+    this.isActiveMenu = !this.isActiveMenu;
+    (this.children.menu as Block).setProps({
+      isActive: this.isActiveMenu,
+      image: this.isActiveMenu ? clipActive : clip,
+    });
+    (this.children.popupWindow as Block)[this.isActiveMenu ? 'show' : 'hide']();
   }
 
   isValid() {
@@ -37,6 +74,7 @@ export class ChatWindowForm extends Block<ChatWindowFormProps> {
       console.log(validating);
       return false;
     }
+    (this.children.input as Input).setProps({ value: '' } as InputProps);
     return validating;
   }
 
@@ -52,9 +90,25 @@ export class ChatWindowForm extends Block<ChatWindowFormProps> {
         focus: this.isValid.bind(this),
       },
     });
+
+    this.children.menu = new PopupWindowButton({
+      isActive: false,
+      classButton: 'chat_window_form__clip',
+      image: clip,
+      events: {
+        click: this.onClickMenu.bind(this),
+      },
+    });
+
+    this.children.popupWindow = new PopupWindow({
+      left: -10,
+      bottom: 65,
+      menuItems: ChatWindowForm.menuItems,
+    });
+    this.children.popupWindow.hide();
   }
 
   render() {
-    return this.compile(template, { ...this.props, clip, send });
+    return this.compile(template, { ...this.props, send });
   }
 }
