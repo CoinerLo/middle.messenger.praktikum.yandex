@@ -1,4 +1,5 @@
 import { withStore } from '../../store/WithStore';
+import { _TFixTsAny } from '../../typings';
 import Block from '../../utils/Block';
 import template from './profileContent.pug';
 
@@ -36,5 +37,4 @@ const withUser = withStore((state) => {
   };
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const ProfileContent = withUser<Record<string, any>>(ProfileContentBase);
+export const ProfileContent = withUser<Record<string, _TFixTsAny>>(ProfileContentBase);

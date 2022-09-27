@@ -1,10 +1,11 @@
-/* eslint-disable no-console */
 import API, {
   ChatsApi,
-  ReadChatUsers,
 } from '../api/ChatsApi';
+import { ReadChatUsers } from '../api/ChatsApi/ChatsApiTypes';
 import UserApi from '../api/UserApi';
 import store from '../store';
+import logger from '../utils/logger';
+import MessageController from './MessageController';
 
 interface UserFromChat {
   chatId: number,
@@ -23,7 +24,7 @@ export class ChatsController {
       const chats = await this.api.getChats();
       store.set('chats', chats);
     } catch (e) {
-      console.error(e);
+      logger.error(e);
     }
   }
 
@@ -31,9 +32,10 @@ export class ChatsController {
     try {
       const { id } = await this.api.createChat(name);
       store.set('currentChatId', id);
+      store.set(`messanges.${id}`, []);
       this.fetchChats();
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -42,9 +44,11 @@ export class ChatsController {
     try {
       await this.api.deleteChatById(id);
       store.set('currentChatId', null);
+      store.set(`messanges.${id}`, []);
+      MessageController.deleteSocket(id);
       this.fetchChats();
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -54,7 +58,7 @@ export class ChatsController {
       await this.api.updateChatAvatar(id, data);
       this.fetchChats();
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -63,7 +67,7 @@ export class ChatsController {
     try {
       await this.api.getNewMessagesCount(id);
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -73,7 +77,7 @@ export class ChatsController {
       const token = await this.api.getToken(id);
       return token;
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -84,7 +88,7 @@ export class ChatsController {
     try {
       await this.api.getChatUsers(id, data);
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -97,7 +101,7 @@ export class ChatsController {
         await this.api.addUsersToChat({ chatId, users: [user[0].id] });
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -110,7 +114,7 @@ export class ChatsController {
         await this.api.deleteUsersFromChat({ chatId, users: [user[0].id] });
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }

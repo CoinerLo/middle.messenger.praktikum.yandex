@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import ChatsApi from '../api/ChatsApi';
 import WSSTransport from '../services/WSSTransport';
 import store from '../store';
-import { Message, State } from '../typings';
+import { MessageI, StateI, _TFixTsAny } from '../typings';
+import logger from '../utils/logger';
 
 export class MessageController {
-  // eslint-disable-next-line @typescript-eslint/ban-types
   private managerSockets: Record<number, WSSTransport> = {};
 
   async connect(user_id: number, chat_id: number) {
@@ -30,12 +29,12 @@ export class MessageController {
 
       this.sendMessage({ type: 'get old', content: '0' }, chat_id);
     } catch (e) {
-      console.error(e);
+      logger.error(e);
     }
   }
 
-  addMessage(data: Message[] | Message) {
-    const { currentChatId, messanges } = store.getState() as State;
+  addMessage(data: MessageI[] | MessageI) {
+    const { currentChatId, messanges } = store.getState() as StateI;
 
     if (Array.isArray(data)) {
       store.set(`messanges.${currentChatId}`, data);
@@ -45,13 +44,26 @@ export class MessageController {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  sendMessage(data: Record<string, any>, chat_id: number) {
+  sendMessage(data: Record<string, _TFixTsAny>, chat_id: number) {
     const socket = this.managerSockets[chat_id];
 
     if (socket) {
-      socket.send(JSON.stringify(data));
+      const status = socket.getStatus();
+      if (status === 1) {
+        socket.send(JSON.stringify(data));
+      } else if (status === 3) {
+        const state = store.getState() as StateI;
+        const { id } = state.user;
+        this.connect(id, chat_id);
+        socket.send(JSON.stringify(data));
+      }
     }
+  }
+
+  deleteSocket(id: number) {
+    // MEMORY: При добавлении функции пинг-понг - здесь будем её останавливать
+    this.managerSockets[id].close('Вы вышли');
+    delete this.managerSockets[id];
   }
 }
 

@@ -1,11 +1,11 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Callback<C extends any[] = unknown[]> = (...args: C) => void;
+import { _TFixTsAny } from '../typings';
+
+type Callback<C extends _TFixTsAny[] = unknown[]> = (...args: C) => void;
 type MapI<P> = P[keyof P];
 
 class EventBus<
   E extends Record<string, string> = Record<string, string>,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Args extends Record<MapI<E>, any[]> = Record<string, any[]>
+  Args extends Record<MapI<E>, _TFixTsAny[]> = Record<string, _TFixTsAny[]>
 > {
   private readonly listeners: {
     [K in MapI<E>]?: Callback<Args[K]>[]

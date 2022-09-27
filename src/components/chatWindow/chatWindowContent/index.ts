@@ -1,5 +1,5 @@
 import { withStore } from '../../../store/WithStore';
-import { Message as MessageI } from '../../../typings';
+import { MessageI } from '../../../typings';
 import Block from '../../../utils/Block';
 import { isEqual } from '../../../utils/helpers';
 import { Message } from '../../message';

@@ -1,6 +1,6 @@
-/* eslint-disable no-console */
 import { Routes } from '..';
-import API, { AuthApi, SignIpData, SignUpData } from '../api/AuthApi';
+import API, { AuthApi } from '../api/AuthApi';
+import { SignInData, SignUpData } from '../api/AuthApi/AuthTypes';
 import ResourcesApi from '../api/ResourcesApi';
 import { Chat } from '../pages/chat';
 import { Profile } from '../pages/profile';
@@ -9,6 +9,7 @@ import { PasswordProfile } from '../pages/profile/password';
 import { router } from '../router';
 import store from '../store';
 import Block from '../utils/Block';
+import logger from '../utils/logger';
 import ChatsController from './ChatsController';
 
 export class AuthController {
@@ -29,12 +30,12 @@ export class AuthController {
         store.set('user.avatar', ResourcesApi.getUrlImg(user.avatar));
       }
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
 
-  async signIn(data: SignIpData) {
+  async signIn(data: SignInData) {
     try {
       await this.api.signIn(data);
       await this.fetchUser();
@@ -46,7 +47,7 @@ export class AuthController {
         .use(Routes.SettingsPassword, PasswordProfile)
         .go(Routes.Messenger);
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 
@@ -62,7 +63,7 @@ export class AuthController {
         .use(Routes.SettingsPassword, PasswordProfile)
         .go(Routes.Messenger);
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 
@@ -71,7 +72,7 @@ export class AuthController {
       await this.api.logout();
       router.go('/');
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 }

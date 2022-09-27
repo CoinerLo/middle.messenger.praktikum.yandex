@@ -1,8 +1,8 @@
 import { nanoid } from 'nanoid';
+import { _TFixTsAny } from '../typings';
 import EventBus from './EventBus';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class Block<P extends Record<string, any> = any> {
+class Block<P extends Record<string, _TFixTsAny> = _TFixTsAny> {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -151,8 +151,7 @@ class Block<P extends Record<string, any> = any> {
     });
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  protected compile(template: (context: any) => string, context: any) {
+  protected compile(template: (context: _TFixTsAny) => string, context: _TFixTsAny) {
     const contextAndStubs = { ...context };
 
     Object.entries(this.children).forEach(([name, component]) => {

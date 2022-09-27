@@ -1,5 +1,6 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Indexed<T = any> ={
+import { _TFixTsAny } from '../typings';
+
+export type Indexed<T = _TFixTsAny> ={
   [key in string]: T;
 };
 
@@ -39,8 +40,7 @@ export function set(object: Indexed | unknown, path: string, value: unknown): In
 
   const result = path.split('.').reduceRight<Indexed>((acc, key) => ({
     [key]: acc,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }), value as any);
+  }), value as _TFixTsAny);
 
   return merge(object as Indexed, result);
 }
@@ -49,8 +49,7 @@ export function isEqualString(lhs: string, rhs: string): boolean {
   return lhs === rhs;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type PlainObject<T = any> = {
+type PlainObject<T = _TFixTsAny> = {
   [k in string]: T;
 };
 
@@ -93,8 +92,7 @@ export function isEqual(lhs: PlainObject, rhs: PlainObject) {
   return true;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type StringIndexed = Record<string, any>;
+type StringIndexed = Record<string, _TFixTsAny>;
 
 export function queryStringify(data: StringIndexed): string | never {
   if (typeof data !== 'object') {

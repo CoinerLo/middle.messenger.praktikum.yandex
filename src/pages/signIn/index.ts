@@ -1,4 +1,4 @@
-import { SignIpData } from '../../api/AuthApi';
+import { SignInData } from '../../api/AuthApi';
 import { Form } from '../../components/form';
 import AuthController from '../../controllers/AuthController';
 import Block from '../../utils/Block';
@@ -32,7 +32,7 @@ export class SignIn extends Block {
     e.preventDefault();
     const data = (this.children.loginForm as Form).getData();
     if (data) {
-      AuthController.signIn(data as unknown as SignIpData);
+      AuthController.signIn(data as unknown as SignInData);
     }
   }
 

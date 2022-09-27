@@ -1,6 +1,6 @@
 import MessageController from '../../controllers/MessageController';
 import { withStore } from '../../store/WithStore';
-import { Chat } from '../../typings';
+import { ChatI } from '../../typings';
 import Block from '../../utils/Block';
 import { isEqual } from '../../utils/helpers';
 import template from './chatWindow.pug';
@@ -10,7 +10,7 @@ import { ChatWindowHead, ChatWindowHeadProps } from './chatWindowHead';
 
 export interface ChatWindowProps {
   userId: number,
-  chat: Chat | undefined,
+  chat: ChatI | undefined,
   currentChatId: number | null,
 }
 

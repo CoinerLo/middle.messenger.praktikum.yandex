@@ -1,27 +1,7 @@
-import BaseApi from './BaseApi';
-
-export interface ReadChatsData {
-  offset: number,
-  limit: number,
-  title: string,
-}
-
-export interface ReadChatUsers {
-  offset?: number,
-  limit?: number,
-  name?: string,
-  email?: string,
-}
-
-export interface AddUsersToChat {
-  users: number[],
-  chatId: number,
-}
-
-export interface DeleteUsersFromChat{
-  users: number[],
-  chatId: number,
-}
+import BaseApi from '../BaseApi';
+import {
+  AddUsersToChat, DeleteUsersFromChat, ReadChatsData, ReadChatUsers,
+} from './ChatsApiTypes';
 
 export class ChatsApi extends BaseApi {
   constructor() {
@@ -77,7 +57,7 @@ export class ChatsApi extends BaseApi {
   // Обновляем аватар чата
 
   updateChatAvatar(id: number, data: FormData) {
-    return this.http.put('avatar', {
+    return this.http.put('/avatar', {
       data: {
         chatId: id,
         avatar: data,

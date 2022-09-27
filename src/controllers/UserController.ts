@@ -1,12 +1,9 @@
-/* eslint-disable no-console */
-import API, {
-  UserUpdateData,
-  UserApi,
-  PasswordUpdateData,
-  AvatarUpdateData,
-  SearchUserData,
-} from '../api/UserApi';
+import API, { UserApi } from '../api/UserApi';
+import {
+  AvatarUpdateData, PasswordUpdateData, SearchUserData, UserUpdateData,
+} from '../api/UserApi/UserApiTypes';
 import { router } from '../router';
+import logger from '../utils/logger';
 import AuthController from './AuthController';
 
 export class UserController {
@@ -22,7 +19,7 @@ export class UserController {
       await AuthController.fetchUser();
       router.go('/settings');
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 
@@ -31,7 +28,7 @@ export class UserController {
       await this.api.updatePassword(data);
       router.go('/settings');
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 
@@ -40,7 +37,7 @@ export class UserController {
       await this.api.updateAvatar(data);
       await AuthController.fetchUser();
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 
@@ -48,7 +45,7 @@ export class UserController {
     try {
       await this.api.readUserById(id);
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 
@@ -56,7 +53,7 @@ export class UserController {
     try {
       await this.api.searchUser(data);
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 }

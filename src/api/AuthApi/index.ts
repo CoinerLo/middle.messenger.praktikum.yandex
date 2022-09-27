@@ -1,26 +1,13 @@
-import { User } from '../typings';
-import BaseApi from './BaseApi';
-
-export interface SignIpData {
-  login: string,
-  password: string,
-}
-
-export interface SignUpData {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  password: string;
-  phone: string;
-}
+import { UserI } from '../../typings';
+import BaseApi from '../BaseApi';
+import { SignInData, SignUpData } from './AuthTypes';
 
 export class AuthApi extends BaseApi {
   constructor() {
     super('/auth');
   }
 
-  signIn(data: SignIpData) {
+  signIn(data: SignInData) {
     return this.http.post('/signin', { data });
   }
 
@@ -28,7 +15,7 @@ export class AuthApi extends BaseApi {
     return this.http.post('/signup', { data });
   }
 
-  readUser(): Promise<User> {
+  readUser(): Promise<UserI> {
     return this.http.get('/user');
   }
 

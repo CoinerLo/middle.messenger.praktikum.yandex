@@ -10,6 +10,7 @@ import { Input, InputProps } from '../../input';
 import { validator } from '../../../utils/validator';
 import { PopupWindowButton } from '../../popupWindowButton';
 import { PopupWindow } from '../../popupWindow';
+import logger from '../../../utils/logger';
 
 interface ChatWindowFormProps {
   events: {
@@ -24,20 +25,17 @@ export class ChatWindowForm extends Block<ChatWindowFormProps> {
     image: photoAndVideo,
     title: 'Фото или Видео',
     // MEMORY: изменим при добавлении функционала в будущих итерациях
-    // eslint-disable-next-line no-console
-    events: { click: () => console.log('Здесь будет модальное окно отправки фото или видео') },
+    events: { click: () => logger.log('Здесь будет модальное окно отправки фото или видео') },
   }, {
     image: file,
     title: 'Файл',
     // MEMORY: изменим при добавлении функционала в будущих итерациях
-    // eslint-disable-next-line no-console
-    events: { click: () => console.log('Здесь будет модальное окно отправки файлов') },
+    events: { click: () => logger.log('Здесь будет модальное окно отправки файлов') },
   }, {
     image: location,
     title: 'Локация',
     // MEMORY: изменим при добавлении функционала в будущих итерациях
-    // eslint-disable-next-line no-console
-    events: { click: () => console.log('Здесь будет модальное окно отправки локации') },
+    events: { click: () => logger.log('Здесь будет модальное окно отправки локации') },
   }];
 
   constructor(props: ChatWindowFormProps) {
@@ -47,11 +45,15 @@ export class ChatWindowForm extends Block<ChatWindowFormProps> {
 
   onClickMenu() {
     this.isActiveMenu = !this.isActiveMenu;
-    (this.children.menu as Block).setProps({
-      isActive: this.isActiveMenu,
-      image: this.isActiveMenu ? clipActive : clip,
-    });
-    (this.children.popupWindow as Block)[this.isActiveMenu ? 'show' : 'hide']();
+    if (!Array.isArray(this.children.menu)) {
+      this.children.menu.setProps({
+        isActive: this.isActiveMenu,
+        image: this.isActiveMenu ? clipActive : clip,
+      });
+    }
+    if (!Array.isArray(this.children.popupWindow)) {
+      this.children.popupWindow[this.isActiveMenu ? 'show' : 'hide']();
+    }
   }
 
   isValid() {
@@ -61,7 +63,7 @@ export class ChatWindowForm extends Block<ChatWindowFormProps> {
     const validating = validator.message(value);
     if (validating) {
       // eslint-disable-next-line no-console
-      console.log(validating);
+      logger.log(validating);
       return false;
     }
     return value;
@@ -70,8 +72,7 @@ export class ChatWindowForm extends Block<ChatWindowFormProps> {
   getData() {
     const validating = this.isValid();
     if (!validating) {
-      // eslint-disable-next-line no-console
-      console.log(validating);
+      logger.log(validating);
       return false;
     }
     (this.children.input as Input).setProps({ value: '' } as InputProps);

@@ -1,4 +1,7 @@
-export interface User {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type _TFixTsAny = any;
+
+export interface UserI {
   id: number;
   first_name: string;
   second_name: string;
@@ -10,20 +13,20 @@ export interface User {
   avatar: string | null;
 }
 
-export interface Chat {
+export interface ChatI {
   id: number,
   title: string,
   avatar: string | null,
   unread_count: number,
   created_by: number,
   last_message: {
-    user: Omit<User, 'id' | 'password' | 'display_name'>,
+    user: Omit<UserI, 'id' | 'password' | 'display_name'>,
     time: string,
     content: string,
   } | null,
 }
 
-export interface Message {
+export interface MessageI {
   id: number,
   user_id: number,
   chat_id: number,
@@ -34,9 +37,9 @@ export interface Message {
   type: string
 }
 
-export interface State {
-  user: User,
-  chats: Chat[],
+export interface StateI {
+  user: UserI,
+  chats: ChatI[],
   currentChatId: number | null,
-  messanges: Record<string, Message[]>,
+  messanges: Record<string, MessageI[]>,
 }

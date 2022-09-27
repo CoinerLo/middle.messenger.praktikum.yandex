@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
 import EventBus from '../utils/EventBus';
+import logger from '../utils/logger';
 
 class WSSTransport extends EventBus {
   private instance: WebSocket | null = null;
@@ -20,22 +20,22 @@ class WSSTransport extends EventBus {
   onopen() {
     this.send(JSON.stringify({ type: 'ping' }));
     this.emit('open');
-    console.log('open');
+    logger.log('open');
   }
 
-  close(e: CloseEvent) {
-    console.log(e);
+  close(e: CloseEvent | string) {
+    logger.log(e);
   }
 
   error(e: Event) {
-    console.log(e);
+    logger.log(e);
   }
 
   onmessage(event: MessageEvent) {
     const data = JSON.parse(event.data);
     if (Array.isArray(data) && data.length > 0) {
       this.emit('addMessage', data);
-    } else if (typeof data === 'object' && data.type === 'message') {
+    } else if (typeof data === 'object' && !Array.isArray(data) && data.type === 'message') {
       this.emit('addMessage', data);
     }
   }

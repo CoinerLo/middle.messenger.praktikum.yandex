@@ -1,3 +1,4 @@
+import { _TFixTsAny } from '../typings';
 import { queryStringify } from '../utils/helpers';
 
 export enum Method {
@@ -10,8 +11,7 @@ export enum Method {
 
 interface Options {
   method?: Method,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data?: any,
+  data?: _TFixTsAny,
   headers?: Record<string, string>,
   timeout?: number
 }

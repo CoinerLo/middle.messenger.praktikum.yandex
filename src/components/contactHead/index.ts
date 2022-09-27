@@ -5,6 +5,7 @@ import { Link } from '../link';
 import { Button } from '../button';
 import { ModalWindow } from '../modalWindow';
 import ChatsController from '../../controllers/ChatsController';
+import logger from '../../utils/logger';
 
 interface ContactHeadProps {
   isOpenModal?: boolean,
@@ -80,8 +81,7 @@ export class ContactHead extends Block {
 
   change() {
     const data = (this.children.search as Search).getData();
-    // eslint-disable-next-line no-console
-    console.log(data); // MEMORY: переделат под нормальную выдачу в лист чатов
+    logger.log(data); // MEMORY: переделат под нормальную выдачу в лист чатов
   }
 
   render() {

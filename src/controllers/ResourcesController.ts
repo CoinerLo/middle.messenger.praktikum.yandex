@@ -1,5 +1,5 @@
-/* eslint-disable no-console */
 import API, { ResourcesApi } from '../api/ResourcesApi';
+import logger from '../utils/logger';
 
 export class ResourcesController {
   private readonly api: ResourcesApi;
@@ -11,9 +11,9 @@ export class ResourcesController {
   async fetchData(path: string) {
     try {
       const data = await this.api.getData(path);
-      console.log(data); // MEMORY: изменим при добавлении функционала отправки файлов
+      logger.log(data); // MEMORY: изменим при добавлении функционала отправки файлов
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       throw new Error(e as string);
     }
   }
@@ -22,7 +22,7 @@ export class ResourcesController {
     try {
       await this.api.postData(data);
     } catch (e) {
-      console.error((e as Error).message);
+      logger.error((e as Error).message);
     }
   }
 }

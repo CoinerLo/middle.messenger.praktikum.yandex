@@ -7,7 +7,7 @@ import itemMenuDel from '../../../../static/itemMenuDel.png';
 import ChatsController from '../../../controllers/ChatsController';
 import { isEqual } from '../../../utils/helpers';
 import { ModalWindow } from '../../modalWindow';
-import store from '../../../store';
+// MEMORY: в следующей версии настроить абсолютные импорты
 
 export interface ChatWindowHeadProps {
   chatName: string,
@@ -32,7 +32,6 @@ export class ChatWindowHead extends Block<ChatWindowHeadProps> {
   private deleteChat() {
     if (this.props.chatId) {
       ChatsController.deleteChat(this.props.chatId);
-      store.set('currentChatId', null);
     }
   }
 

@@ -1,25 +1,8 @@
-import { User } from '../typings';
-import BaseApi from './BaseApi';
-
-export interface PasswordUpdateData {
-  oldPassword: string,
-  newPassword: string,
-}
-
-export interface UserUpdateData {
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-}
-
-export interface SearchUserData {
-  login: string
-}
-
-export type AvatarUpdateData = FormData;
+import { UserI } from '../../typings';
+import BaseApi from '../BaseApi';
+import {
+  AvatarUpdateData, PasswordUpdateData, SearchUserData, UserUpdateData,
+} from './UserApiTypes';
 
 export class UserApi extends BaseApi {
   constructor() {
@@ -42,7 +25,7 @@ export class UserApi extends BaseApi {
     return this.http.get(`/${id}`);
   }
 
-  searchUser(data: SearchUserData): Promise<Array<Omit<User, 'password'>>> {
+  searchUser(data: SearchUserData): Promise<Array<Omit<UserI, 'password'>>> {
     return this.http.post('/search', { data });
   }
 

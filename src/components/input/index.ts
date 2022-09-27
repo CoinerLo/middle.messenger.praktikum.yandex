@@ -35,8 +35,8 @@ export class Input extends Block<InputProps> {
     }
   }
 
-  protected componentDidUpdate(oldProps: InputProps, newProps: InputProps): boolean {
-    if (newProps.value !== undefined && newProps.value !== oldProps.value) {
+  protected componentDidUpdate(_oldProps: InputProps, newProps: InputProps): boolean {
+    if (newProps.value !== undefined) {
       const elem = this.element as HTMLInputElement;
       elem.value = newProps.value;
       return true;

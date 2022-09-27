@@ -1,12 +1,12 @@
 import Block from '../../utils/Block';
 import template from './contactList.pug';
 import { Contact, ContactProps } from './contact';
-import { Chat } from '../../typings';
+import { ChatI } from '../../typings';
 import { withStore } from '../../store/WithStore';
 import store from '../../store';
 
 type ContactListProps = {
-  chats: Chat[],
+  chats: ChatI[],
   currentChatId: number | null
 }
 
@@ -22,7 +22,7 @@ export class ContactListBase extends Block<ContactListProps> {
 
   init() {
     if (this.props.chats) {
-      this.children.contacts = this.props.chats?.map((contactData: Chat) => {
+      this.children.contacts = this.props.chats?.map((contactData: ChatI) => {
         const {
           title, avatar, id, unread_count, last_message,
         } = contactData;
@@ -56,9 +56,9 @@ export class ContactListBase extends Block<ContactListProps> {
       return true;
     }
 
-    if (oldProps.chats.length !== newProps.chats.length) {
+    if ((!oldProps.chats && newProps.chats) || oldProps.chats.length !== newProps.chats.length) {
       if (newProps.chats) {
-        this.children.contacts = newProps.chats?.map((contactData: Chat) => {
+        this.children.contacts = newProps.chats?.map((contactData: ChatI) => {
           const {
             title, avatar, id, unread_count, last_message,
           } = contactData;
