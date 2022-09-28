@@ -1,7 +1,7 @@
 import Block from '../../utils/Block';
 import template from './input.pug';
 
-interface InputProps {
+export interface InputProps {
   id: string,
   name: string,
   type: string,
@@ -33,6 +33,15 @@ export class Input extends Block<InputProps> {
         elem.classList.add(props.classInput);
       }
     }
+  }
+
+  protected componentDidUpdate(_oldProps: InputProps, newProps: InputProps): boolean {
+    if (newProps.value !== undefined) {
+      const elem = this.element as HTMLInputElement;
+      elem.value = newProps.value;
+      return true;
+    }
+    return false;
   }
 
   render() {

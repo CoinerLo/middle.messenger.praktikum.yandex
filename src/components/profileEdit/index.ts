@@ -1,9 +1,20 @@
 import Block from '../../utils/Block';
 import template from './profileEdit.pug';
 import { Form } from '../form';
-import { data } from '../../pages/profile';
+import { withStore } from '../../store/WithStore';
+import UserController from '../../controllers/UserController';
+import { UserUpdateData } from '../../api/UserApi';
 
-export class ProfileEdit extends Block {
+interface ProfileEditBaseProps {
+  email: string,
+  login: string,
+  first_name: string,
+  second_name: string,
+  display_name: string,
+  phone: string
+}
+
+class ProfileEditBase extends Block<ProfileEditBaseProps> {
   static labels = [
     { email: 'Почта' },
     { login: 'Логин' },
@@ -39,24 +50,33 @@ export class ProfileEdit extends Block {
     type: 'phone',
   }];
 
-  constructor() {
-    super('section');
+  constructor(props: ProfileEditBaseProps) {
+    super('section', props);
     this.element?.classList.add('profile_edit');
   }
 
   submit(e: SubmitEvent) {
     e.preventDefault();
     const dataSub = (this.children.form as Form).getData();
-    // eslint-disable-next-line no-console
-    console.log(dataSub); // выводим в консоль данные формы, если валидация пройдена
+
+    if (dataSub) {
+      UserController.updateProfile(dataSub as unknown as UserUpdateData);
+    }
   }
 
   init() {
     this.children.form = new Form({
-      inputsMetaData: ProfileEdit.inputs,
-      labels: ProfileEdit.labels,
+      inputsMetaData: ProfileEditBase.inputs,
+      labels: ProfileEditBase.labels,
       button: 'Сохранить',
-      data,
+      data: {
+        email: this.props.email,
+        login: this.props.login,
+        first_name: this.props.first_name,
+        second_name: this.props.second_name,
+        display_name: this.props.display_name,
+        phone: this.props.phone,
+      },
       events: {
         submit: this.submit.bind(this),
       },
@@ -67,3 +87,7 @@ export class ProfileEdit extends Block {
     return this.compile(template, this.props);
   }
 }
+
+const withUser = withStore((state) => ({ ...state.user }));
+
+export const ProfileEdit = withUser(ProfileEditBase);

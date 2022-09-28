@@ -3,9 +3,11 @@ if avatar
 else
   div.contact_img
 .contact_content
-  h1.contact_content__title= name
-  p.contact_content__message= lastMessage
+  h1.contact_content__title= title
+  if message
+    p.contact_content__message= message
 .contact_info
-  p.contact_info__time= timeLastMessage
+  if time
+    p.contact_info__time= time
   if numUnreadMessages
-    span.contact_info__count= numUnreadMessages
+    span.contact_info__count= unread_count

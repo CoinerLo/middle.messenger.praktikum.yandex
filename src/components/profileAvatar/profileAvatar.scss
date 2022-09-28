@@ -8,6 +8,13 @@
     border-radius: 50%;
     cursor: pointer;
 
+    img {
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
     &:hover::before {
       content: "Поменять\Aаватар";
       position: absolute;

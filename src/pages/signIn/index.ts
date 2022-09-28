@@ -1,4 +1,6 @@
+import { SignInData } from '../../api/AuthApi';
 import { Form } from '../../components/form';
+import AuthController from '../../controllers/AuthController';
 import Block from '../../utils/Block';
 import template from './signIn.pug';
 
@@ -29,15 +31,16 @@ export class SignIn extends Block {
   submit(e: SubmitEvent) {
     e.preventDefault();
     const data = (this.children.loginForm as Form).getData();
-    // eslint-disable-next-line no-console
-    console.log(data); // выводим в консоль данные формы, если валидация пройдена
+    if (data) {
+      AuthController.signIn(data as unknown as SignInData);
+    }
   }
 
   init() {
     this.children.loginForm = new Form({
       button: 'Авторизоваться',
       title: 'Вход',
-      redirect: '/signUp',
+      redirect: '/sign-up',
       redirectTitle: 'Нет аккаунта?',
       inputsMetaData: SignIn.inputsMetaData,
       labels: SignIn.labels,

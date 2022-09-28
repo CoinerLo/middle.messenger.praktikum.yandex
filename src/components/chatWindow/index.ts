@@ -1,29 +1,20 @@
-import { ChatData } from '../../pages/chat';
+import MessageController from '../../controllers/MessageController';
+import { withStore } from '../../store/WithStore';
+import { ChatI } from '../../typings';
 import Block from '../../utils/Block';
+import { isEqual } from '../../utils/helpers';
 import template from './chatWindow.pug';
-import { ChatWindowContent } from './chatWindowContent';
+import { ChatWindowContent, ChatWindowContentProps } from './chatWindowContent';
 import { ChatWindowForm } from './chatWindowForm';
-import { ChatWindowHead } from './chatWindowHead';
+import { ChatWindowHead, ChatWindowHeadProps } from './chatWindowHead';
 
-interface ChatWindowProps {
-  chatData?: ChatData,
+export interface ChatWindowProps {
+  userId: number,
+  chat: ChatI | undefined,
+  currentChatId: number | null,
 }
 
-const messages = [{
-  content: 'Круто!',
-  isMyMess: true,
-  time: '12:00',
-}, {
-  content: 'Привет! Смотри, тут всплыл интересный кусок лунной космической истории - НАСА в какой-то момент попросила Хассульблад адаптировать модель',
-  isMyMess: false,
-  time: '11:56',
-}, {
-  content: 'Привет! Смотри, тут всплыл интересный кусок лунной космической истории - НАСА в какой-то момент попросила Хассульблад адаптировать модель',
-  isMyMess: false,
-  time: '11:56',
-}];
-
-export class ChatWindow extends Block<ChatWindowProps> {
+export class ChatWindowBase extends Block<ChatWindowProps> {
   constructor(props: ChatWindowProps) {
     super('section', props);
     this.element?.classList.add('chat_window');
@@ -33,18 +24,20 @@ export class ChatWindow extends Block<ChatWindowProps> {
     e.preventDefault();
     const form = this.children.form as ChatWindowForm;
     const message = form.getData();
-    // eslint-disable-next-line no-console
-    console.log(message); // пока выводим в консоль
+    if (this.props.currentChatId) {
+      MessageController.sendMessage({ type: 'message', content: message }, this.props.currentChatId);
+    }
   }
 
   init() {
     this.children.head = new ChatWindowHead({
-      contactName: this.props.chatData?.contactName ?? 'Unknown',
+      chatName: this.props.chat?.title ?? 'Unknown',
+      chatId: this.props.currentChatId,
     });
 
     this.children.content = new ChatWindowContent({
-      messagesData: messages,
-    });
+      userId: this.props.userId,
+    } as ChatWindowContentProps);
 
     this.children.form = new ChatWindowForm({
       events: {
@@ -53,7 +46,37 @@ export class ChatWindow extends Block<ChatWindowProps> {
     });
   }
 
+  protected componentDidUpdate(oldProps: ChatWindowProps, newProps: ChatWindowProps): boolean {
+    if (oldProps.currentChatId !== newProps.currentChatId && newProps.currentChatId) {
+      MessageController.connect(this.props.userId, newProps.currentChatId);
+
+      (this.children.head as ChatWindowHead).setProps({
+        chatId: newProps.currentChatId,
+      } as ChatWindowHeadProps);
+      return true;
+    } if ((newProps.chat && !oldProps.chat)
+    || (newProps.chat && oldProps.chat && !isEqual(newProps.chat, oldProps.chat))) {
+      (this.children.head as ChatWindowHead).setProps({
+        chatName: newProps.chat.title,
+      } as ChatWindowHeadProps);
+      return true;
+    } if (!newProps.currentChatId) {
+      (this.children.head as ChatWindowHead).setProps({ chatName: '', chatId: null });
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     return this.compile(template, this.props);
   }
 }
+
+const withChat = withStore((state) => ({
+  userId: state.user.id,
+  chat: state.chats.find(({ id }) => id === state.currentChatId),
+  currentChatId: state.currentChatId,
+}));
+
+export const ChatWindow = withChat(ChatWindowBase);

@@ -1,40 +1,30 @@
-import { BackButton } from '../../components/backButton';
-import { ProfileAvatar } from '../../components/profileAvatar';
+import { Link } from '../../components/link';
+import { ProfileAvatar, ProfileAvatarProps } from '../../components/profileAvatar';
 import { ProfileContent } from '../../components/profileContent';
 import { ProfileControl } from '../../components/profileControl';
+import { withStore } from '../../store/WithStore';
 import Block from '../../utils/Block';
 import template from './profile.pug';
 
-export const data = {
-  email: 'pochta@yandex.ru',
-  login: 'ivanivanov',
-  first_name: 'Иван',
-  second_name: 'Иванов',
-  display_name: 'Иван',
-  phone: '+79099673030',
-};
+interface ProfileBaseProps {
+  display_name: string,
+}
 
-export class Profile extends Block {
-  constructor() {
-    super('section');
+class ProfileBase extends Block<ProfileBaseProps> {
+  constructor(props: ProfileBaseProps) {
+    super('section', props);
     this.element?.classList.add('profile');
   }
 
   init() {
-    this.children.back_button = new BackButton({
-      href: '/',
+    this.children.back_button = new Link({
+      className: 'backButton',
+      url: '/messenger',
     });
     this.children.profile_avatar = new ProfileAvatar({
-      name: data.display_name,
-    });
-    this.children.profile_content = new ProfileContent({
-      email: data.email,
-      login: data.login,
-      first_name: data.first_name,
-      second_name: data.second_name,
-      display_name: data.display_name,
-      phone: data.phone,
-    });
+      name: this.props.display_name,
+    } as ProfileAvatarProps);
+    this.children.profile_content = new ProfileContent({});
     this.children.profile_control = new ProfileControl();
   }
 
@@ -42,3 +32,7 @@ export class Profile extends Block {
     return this.compile(template, this.props);
   }
 }
+
+const withUser = withStore((state) => ({ display_name: state.user.display_name }));
+
+export const Profile = withUser(ProfileBase);

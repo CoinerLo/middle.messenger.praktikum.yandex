@@ -18,5 +18,9 @@
   &_back {
     color: $blue;
     font-size: 14px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

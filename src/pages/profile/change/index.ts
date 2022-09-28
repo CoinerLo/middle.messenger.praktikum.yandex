@@ -1,4 +1,4 @@
-import { BackButton } from '../../../components/backButton';
+import { Link } from '../../../components/link';
 import { ProfileAvatar } from '../../../components/profileAvatar';
 import { ProfileEdit } from '../../../components/profileEdit';
 import Block from '../../../utils/Block';
@@ -11,11 +11,12 @@ export class ChangeProfile extends Block {
   }
 
   init() {
-    this.children.back_button = new BackButton({
-      href: '/profile',
+    this.children.back_button = new Link({
+      className: 'backButton',
+      url: '/settings',
     });
     this.children.profile_avatar = new ProfileAvatar({});
-    this.children.profile_content = new ProfileEdit();
+    this.children.profile_content = new ProfileEdit({});
   }
 
   render() {

@@ -2,6 +2,9 @@
   height: 100%;
   width: 64px;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0;
   left: 0;
   border-right: 1px solid $grey;
@@ -12,9 +15,10 @@
 
   &::before {
     content: "<-";
-    display: block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
-    left: 18px;
     width: 28px;
     height: 28px;
     color: $white;

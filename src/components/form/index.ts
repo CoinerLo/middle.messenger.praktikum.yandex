@@ -2,7 +2,9 @@ import Block from '../../utils/Block';
 import template from './form.pug';
 import { FormErrorMessage } from '../formErrorMessage';
 import { validator } from '../../utils/validator';
-import { Input } from '../input';
+import { Input, InputProps } from '../input';
+import { Link } from '../link';
+import { isEqual } from '../../utils/helpers';
 
 export interface InputsMetaDataI {
   id: string,
@@ -20,6 +22,7 @@ interface FormProps {
   data?: Record<string, string>,
   events: {
     submit: (e: SubmitEvent) => void;
+    click?: (e: SubmitEvent) => void;
   }
 }
 
@@ -59,6 +62,16 @@ export class Form extends Block<FormProps> {
     return value;
   }
 
+  getFile() {
+    if (Array.isArray(this.children.inputs)) {
+      const { element } = this.children.inputs[0];
+      if (element && (element as HTMLInputElement).type === 'file') {
+        return (element as HTMLInputElement).files?.[0];
+      }
+    }
+    return false;
+  }
+
   getData() {
     const isValidById: Record<string, boolean> = {};
     const fullData: Record<string, string> = {};
@@ -75,6 +88,9 @@ export class Form extends Block<FormProps> {
     });
     const result = Object.values(isValidById);
     if (result.length > 0 && result.every((i) => i)) {
+      (this.children.inputs as Input[]).forEach((input) => {
+        input.setProps({ value: '' } as InputProps);
+      });
       return fullData;
     }
     return false;
@@ -94,6 +110,26 @@ export class Form extends Block<FormProps> {
       .map(({ id }: InputsMetaDataI) => new FormErrorMessage({
         inputId: id,
       }));
+    if (this.props.redirectTitle && this.props.redirect) {
+      this.children.link = new Link({
+        title: this.props.redirectTitle,
+        url: this.props.redirect,
+        className: 'link_signIn_Up',
+      });
+    }
+  }
+
+  protected componentDidUpdate(oldProps: FormProps, newProps: FormProps): boolean {
+    if (oldProps.data && newProps.data && !isEqual(oldProps.data, newProps.data)) {
+      (this.children.inputs as Block[]).forEach((i: Block) => {
+        const id = i.element?.id;
+        if (id && newProps.data?.[id] !== oldProps.data?.[id]) {
+          i.setProps({ value: newProps.data?.[id] });
+        }
+      });
+      return true;
+    }
+    return false;
   }
 
   render() {
