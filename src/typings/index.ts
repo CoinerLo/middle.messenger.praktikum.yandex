@@ -5,7 +5,7 @@ export interface UserI {
   id: number;
   first_name: string;
   second_name: string;
-  display_name: string | null;
+  display_name: string;
   login: string;
   email: string;
   password: string;

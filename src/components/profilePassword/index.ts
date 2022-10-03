@@ -2,7 +2,7 @@ import Block from '../../utils/Block';
 import template from './profilePassword.pug';
 import { Form } from '../form';
 import UserController from '../../controllers/UserController';
-import { PasswordUpdateData } from '../../api/UserApi';
+import { PasswordUpdateData } from '../../api/UserApi/UserApiTypes';
 
 export class ProfilePassword extends Block {
   static labels = [

@@ -1,6 +1,6 @@
 import { Link } from '../../../components/link';
-import { ProfileAvatar } from '../../../components/profileAvatar';
-import { ProfileEdit } from '../../../components/profileEdit';
+import { ProfileAvatar, ProfileAvatarProps } from '../../../components/profileAvatar';
+import { ProfileEdit, ProfileEditBaseProps } from '../../../components/profileEdit';
 import Block from '../../../utils/Block';
 import template from '../profile.pug';
 
@@ -15,8 +15,8 @@ export class ChangeProfile extends Block {
       className: 'backButton',
       url: '/settings',
     });
-    this.children.profile_avatar = new ProfileAvatar({});
-    this.children.profile_content = new ProfileEdit({});
+    this.children.profile_avatar = new ProfileAvatar({} as ProfileAvatarProps);
+    this.children.profile_content = new ProfileEdit({} as ProfileEditBaseProps);
   }
 
   render() {

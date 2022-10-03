@@ -11,6 +11,7 @@ import { router } from './router';
 import AuthController from './controllers/AuthController';
 import ChatsController from './controllers/ChatsController';
 import Block from './utils/Block';
+import './index.scss';
 
 export enum Routes {
   Index = '/',
@@ -52,7 +53,7 @@ window.addEventListener('DOMContentLoaded', async () => {
       .start();
 
     if (!isProtectedRoute) {
-      router.go(Routes.Settings);
+      router.go(Routes.Messenger);
     }
   } catch (e) {
     router.start();

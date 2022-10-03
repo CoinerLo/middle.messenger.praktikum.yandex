@@ -3,16 +3,10 @@ import template from './profileEdit.pug';
 import { Form } from '../form';
 import { withStore } from '../../store/WithStore';
 import UserController from '../../controllers/UserController';
-import { UserUpdateData } from '../../api/UserApi';
+import { UserUpdateData } from '../../api/UserApi/UserApiTypes';
+import { UserI } from '../../typings';
 
-interface ProfileEditBaseProps {
-  email: string,
-  login: string,
-  first_name: string,
-  second_name: string,
-  display_name: string,
-  phone: string
-}
+export type ProfileEditBaseProps = Omit<UserI, 'id | password | avatar'>;
 
 class ProfileEditBase extends Block<ProfileEditBaseProps> {
   static labels = [
