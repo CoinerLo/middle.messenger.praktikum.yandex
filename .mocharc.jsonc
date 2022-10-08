@@ -2,6 +2,5 @@
   "diff": true,
   "extension": ["ts"],
   "spec": "src/**/*.test.ts",
-  "loader": "ts-node/esm",
-  "require": "ts-node/register"
+  "require": ["./mocha-setup.js", "ts-node/register"]
 }

@@ -1,13 +1,9 @@
-import Block from '../utils/Block';
 import { router } from '../router';
 import { _TFixTsAny } from '../typings';
+import { ComponentConstructable } from '../store/WithStore';
 
 export interface PropsWithRouter {
   router: typeof router;
-}
-
-interface ComponentConstructable<P extends Record<string, _TFixTsAny>> {
-  new(props: P): Block<P>
 }
 
 export function withRouter(Component: ComponentConstructable<_TFixTsAny>) {

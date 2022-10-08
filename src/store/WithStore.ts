@@ -2,7 +2,7 @@ import Block from '../utils/Block';
 import store, { StoreEvents } from '.';
 import { StateI, _TFixTsAny } from '../typings';
 
-interface ComponentConstructable<P extends Record<string, _TFixTsAny>> {
+export interface ComponentConstructable<P extends Record<string, _TFixTsAny>> {
   new(props: P): Block<P>
 }
 

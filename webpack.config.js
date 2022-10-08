@@ -8,7 +8,7 @@ const ASSET_PATH = process.env.ASSET_PATH || '/';
 module.exports = {
   mode,
   entry: './src/index.ts',
-  devtool: 'eval',
+  devtool: 'cheap-module-source-map',
   resolve: {
     extensions: ['.ts', '.js', '.json'],
   },

@@ -61,7 +61,6 @@ export class MessageController {
   }
 
   deleteSocket(id: number) {
-    // MEMORY: При добавлении функции пинг-понг - здесь будем её останавливать
     this.managerSockets[id].close('Вы вышли');
     delete this.managerSockets[id];
   }

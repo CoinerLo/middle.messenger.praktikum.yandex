@@ -4,6 +4,8 @@ import logger from '../utils/logger';
 class WSSTransport extends EventBus {
   private instance: WebSocket | null = null;
 
+  private pingIntervalId: NodeJS.Timer | null = null;
+
   constructor(user_id: number, chat_id: number, token_value: string) {
     super();
     const url = `wss://ya-praktikum.tech/ws/chats/${user_id}/${chat_id}/${token_value}`;
@@ -17,21 +19,24 @@ class WSSTransport extends EventBus {
     this.instance = soket;
   }
 
-  onopen() {
-    this.send(JSON.stringify({ type: 'ping' }));
+  public onopen() {
     this.emit('open');
+    this.setupPing(6000);
     logger.log('open');
   }
 
-  close(e: CloseEvent | string) {
+  public close(e: CloseEvent | string) {
+    if (this.pingIntervalId) {
+      clearInterval(this.pingIntervalId);
+    }
     logger.log(e);
   }
 
-  error(e: Event) {
+  public error(e: Event) {
     logger.log(e);
   }
 
-  onmessage(event: MessageEvent) {
+  public onmessage(event: MessageEvent) {
     const data = JSON.parse(event.data);
     if (Array.isArray(data) && data.length > 0) {
       this.emit('addMessage', data);
@@ -40,12 +45,18 @@ class WSSTransport extends EventBus {
     }
   }
 
-  send(data: string) {
+  public send(data: string) {
     this.instance?.send(data);
   }
 
-  getStatus() {
+  public getStatus() {
     return this.instance?.readyState;
+  }
+
+  private setupPing(interval: number) {
+    this.pingIntervalId = setInterval(() => {
+      this.send(JSON.stringify({ type: 'ping' }));
+    }, interval);
   }
 }
 

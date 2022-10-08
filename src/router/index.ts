@@ -1,7 +1,7 @@
 import Block from '../utils/Block';
 import { Route } from './Route';
 
-class Router {
+export default class Router {
   // eslint-disable-next-line no-use-before-define
   private static __instance: Router;
 
