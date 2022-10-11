@@ -24,7 +24,7 @@ export class ChatWindowBase extends Block<ChatWindowProps> {
     e.preventDefault();
     const form = this.children.form as ChatWindowForm;
     const message = form.getData();
-    if (this.props.currentChatId) {
+    if (this.props.currentChatId && !!message) {
       MessageController.sendMessage({ type: 'message', content: message }, this.props.currentChatId);
     }
   }

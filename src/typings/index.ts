@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type _TFixTsAny = any;
 
+export type EventElement = { target: HTMLElement }
+
 export interface UserI {
   id: number;
   first_name: string;
@@ -37,9 +39,15 @@ export interface MessageI {
   type: string
 }
 
+export interface PagesCount {
+  pageNumber: number,
+  isThisLast: boolean,
+}
+
 export interface StateI {
   user: UserI,
   chats: ChatI[],
   currentChatId: number | null,
   messanges: Record<string, MessageI[]>,
+  pages: Record<string, PagesCount>,
 }

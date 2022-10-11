@@ -45,6 +45,7 @@ export class ChatsController {
       await this.api.deleteChatById(id);
       store.set('currentChatId', null);
       store.set(`messanges.${id}`, []);
+      store.set(`pages.${id}`, {});
       MessageController.deleteSocket(id);
       this.fetchChats();
     } catch (e) {
