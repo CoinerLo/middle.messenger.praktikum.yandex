@@ -1,9 +1,10 @@
-import API, {
-  ChatsApi,
-} from '../api/ChatsApi';
+import { Routes } from '..';
+import API, { ChatsApi } from '../api/ChatsApi';
 import { ReadChatUsers } from '../api/ChatsApi/ChatsApiTypes';
 import UserApi from '../api/UserApi';
+import { router } from '../router';
 import store from '../store';
+import { StateI } from '../typings';
 import logger from '../utils/logger';
 import MessageController from './MessageController';
 
@@ -28,11 +29,38 @@ export class ChatsController {
     }
   }
 
+  checkAndSetParameterInRoute() {
+    const parameter = router.getParameter();
+    if (parameter === null) {
+      store.set('currentChatId', parameter);
+      return parameter;
+    }
+    const validatedId = this.validateChatId(Number(parameter));
+    store.set('currentChatId', validatedId);
+    return validatedId;
+  }
+
+  toGoToChatById(id: number | string | null) {
+    if (id === null) {
+      store.set('currentChatId', null);
+      router.go(Routes.Messenger, null);
+    } else {
+      store.set('currentChatId', id);
+      router.go(Routes.Messenger, Number(id));
+    }
+  }
+
+  validateChatId(id: number) {
+    const { chats } = store.getState() as StateI;
+    const isThereSuchAnIdAmongChats = chats.some(({ id: chatId }) => chatId === id);
+    return isThereSuchAnIdAmongChats ? id : null;
+  }
+
   async createChat(name: string) {
     try {
       const { id } = await this.api.createChat(name);
-      store.set('currentChatId', id);
       store.set(`messanges.${id}`, []);
+      this.toGoToChatById(id);
       this.fetchChats();
     } catch (e) {
       logger.error(e);
@@ -43,10 +71,10 @@ export class ChatsController {
   async deleteChat(id: number) {
     try {
       await this.api.deleteChatById(id);
-      store.set('currentChatId', null);
       store.set(`messanges.${id}`, []);
       store.set(`pages.${id}`, {});
       MessageController.deleteSocket(id);
+      this.toGoToChatById(null);
       this.fetchChats();
     } catch (e) {
       logger.error(e);
