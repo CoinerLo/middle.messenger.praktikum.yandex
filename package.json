@@ -4,12 +4,14 @@
   "description": "messanger",
   "scripts": {
     "start": "npm run build && node server.js --open",
-    "dev": "npx webpack serve --open",
+    "dev": "npx webpack serve",
     "build": "cross-env NODE_ENV=production npx webpack",
     "test": "./node_modules/.bin/mocha",
     "lint": "npx eslint .",
     "style": "npx stylelint \"**/*.scss\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docker_prod": "docker compose --file docker-compose.yml up",
+    "docker_dev": "docker compose --file docker-compose.dev.yml up"
   },
   "repository": {
     "type": "git",

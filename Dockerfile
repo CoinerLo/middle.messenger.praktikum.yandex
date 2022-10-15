@@ -1,11 +1,26 @@
-FROM node:16-alpine
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
+FROM node:16-alpine3.16 AS builder
+
+WORKDIR /var/www/build
+
 COPY package*.json ./
-RUN npm install -g npm@8.19.2
+
 RUN npm install
-USER node
-RUN node -v
-COPY --chown=node:node . .
+
+COPY . .
+
+RUN npm run build
+
+FROM node:16-alpine3.16 AS production
+
+WORKDIR /var/www/prod
+
+COPY --from=builder /var/www/build/package.json /var/www/build/package-lock.json ./
+
+RUN npm install --omit=dev --ignore-scripts
+
+COPY --from=builder /var/www/build/dist ./dist
+COPY --from=builder /var/www/build/server.js ./
+
 EXPOSE 3000
-CMD npm run start
+
+CMD ["node", "./server.js"]

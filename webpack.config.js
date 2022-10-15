@@ -69,9 +69,15 @@ module.exports = {
     }),
   ],
   devServer: {
+    host: '0.0.0.0',
     hot: true,
-    port: 3000,
+    port: 1234,
     compress: true,
+    allowedHosts: 'all',
     historyApiFallback: true,
+  },
+  watchOptions: {
+    aggregateTimeout: 300,
+    poll: true,
   },
 };
