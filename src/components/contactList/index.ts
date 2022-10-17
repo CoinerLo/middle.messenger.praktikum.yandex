@@ -3,7 +3,7 @@ import template from './contactList.pug';
 import { Contact, ContactProps } from './contact';
 import { ChatI } from '../../typings';
 import { withStore } from '../../store/WithStore';
-import store from '../../store';
+import ChatsController from '../../controllers/ChatsController';
 
 type ContactListProps = {
   chats: ChatI[],
@@ -17,7 +17,7 @@ export class ContactListBase extends Block<ContactListProps> {
   }
 
   setCurrentChat(id: number) {
-    store.set('currentChatId', id);
+    ChatsController.toGoToChatById(id);
   }
 
   init() {

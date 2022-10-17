@@ -15,5 +15,10 @@
       "ESNext",
       "DOM"
     ]
+  },
+  "include": ["src/**/*", "src/**/*.test.ts"],
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "files": true
   }
 }

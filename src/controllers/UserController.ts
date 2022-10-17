@@ -1,3 +1,4 @@
+import { Routes } from '..';
 import API, { UserApi } from '../api/UserApi';
 import {
   AvatarUpdateData, PasswordUpdateData, SearchUserData, UserUpdateData,
@@ -17,7 +18,7 @@ export class UserController {
     try {
       await this.api.updateUser(data);
       await AuthController.fetchUser();
-      router.go('/settings');
+      router.go(Routes.Settings);
     } catch (e) {
       logger.error((e as Error).message);
     }
@@ -26,7 +27,7 @@ export class UserController {
   async updatePassword(data: PasswordUpdateData) {
     try {
       await this.api.updatePassword(data);
-      router.go('/settings');
+      router.go(Routes.Settings);
     } catch (e) {
       logger.error((e as Error).message);
     }

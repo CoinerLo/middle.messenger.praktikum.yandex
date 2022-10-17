@@ -70,7 +70,7 @@ export class AuthController {
   async logout() {
     try {
       await this.api.logout();
-      router.go('/');
+      router.go(Routes.Index);
     } catch (e) {
       logger.error((e as Error).message);
     }

@@ -128,3 +128,19 @@ export function queryStringify(data: StringIndexed): string | never {
     return `${result}${key}=${value}${endLine}`;
   }, '');
 }
+
+export function debounce(callee: (...args: _TFixTsAny) => void, timeout: number) {
+  let timer: NodeJS.Timeout | null = null;
+
+  return function perform(...args: _TFixTsAny[]) {
+    if (timer) return;
+    timer = setTimeout(() => {
+      callee(...args);
+
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+    }, timeout);
+  };
+}

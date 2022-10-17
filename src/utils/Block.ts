@@ -106,7 +106,7 @@ class Block<P extends Record<string, _TFixTsAny> = _TFixTsAny> {
     // для определения в потомках класса
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     // для определения в потомках класса
   }
 
@@ -195,7 +195,7 @@ class Block<P extends Record<string, _TFixTsAny> = _TFixTsAny> {
     return temp.content;
   }
 
-  setProps = (nextProps: P) => {
+  public setProps = (nextProps: P) => {
     if (!nextProps) {
       return;
     }
@@ -207,16 +207,16 @@ class Block<P extends Record<string, _TFixTsAny> = _TFixTsAny> {
     return this._element;
   }
 
-  getContent() {
+  public getContent() {
     return this.element;
   }
 
-  show(display?: string) {
+  public show(display?: string) {
     const content = this.getContent();
     if (content) content.style.display = display || 'block';
   }
 
-  hide() {
+  public hide() {
     const content = this.getContent();
     if (content) content.style.display = 'none';
   }

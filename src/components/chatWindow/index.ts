@@ -1,3 +1,4 @@
+import ChatsController from '../../controllers/ChatsController';
 import MessageController from '../../controllers/MessageController';
 import { withStore } from '../../store/WithStore';
 import { ChatI } from '../../typings';
@@ -18,13 +19,15 @@ export class ChatWindowBase extends Block<ChatWindowProps> {
   constructor(props: ChatWindowProps) {
     super('section', props);
     this.element?.classList.add('chat_window');
+    const chatId = ChatsController.checkAndSetParameterInRoute();
+    this.setProps({ currentChatId: Number(chatId) } as ChatWindowProps);
   }
 
   submit(e: SubmitEvent) {
     e.preventDefault();
     const form = this.children.form as ChatWindowForm;
     const message = form.getData();
-    if (this.props.currentChatId) {
+    if (this.props.currentChatId && !!message) {
       MessageController.sendMessage({ type: 'message', content: message }, this.props.currentChatId);
     }
   }
@@ -60,7 +63,7 @@ export class ChatWindowBase extends Block<ChatWindowProps> {
         chatName: newProps.chat.title,
       } as ChatWindowHeadProps);
       return true;
-    } if (!newProps.currentChatId) {
+    } if (!!oldProps.currentChatId && !newProps.currentChatId) {
       (this.children.head as ChatWindowHead).setProps({ chatName: '', chatId: null });
       return true;
     }

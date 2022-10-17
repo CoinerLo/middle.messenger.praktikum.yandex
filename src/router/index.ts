@@ -1,11 +1,14 @@
+import { Routes } from '..';
 import Block from '../utils/Block';
 import { Route } from './Route';
 
-class Router {
+export default class Router {
   // eslint-disable-next-line no-use-before-define
   private static __instance: Router;
 
   private currentRoute: Route | null = null;
+
+  private parameter: number | string | null = null;
 
   private rootQuery!: string;
 
@@ -56,8 +59,16 @@ class Router {
     route.render();
   }
 
-  public go(pathname: string) {
-    this.history.pushState({}, '', pathname);
+  public go(pathname: string, parameter?: number | null) {
+    if (parameter) {
+      this.history.pushState({}, '', `${pathname}/${parameter}`);
+      this.parameter = parameter;
+    } else if (parameter === null) {
+      this.parameter = null;
+      this.history.pushState({}, '', pathname);
+    } else {
+      this.history.pushState({}, '', pathname);
+    }
     this._onRoute(pathname);
   }
 
@@ -70,7 +81,19 @@ class Router {
   }
 
   public getRoute(pathname: string) {
+    const messengerRegExp = /^\/messenger\/\d+$/i; // MEMORY: в будущих версиях доработаем и сделаем красиво
+
+    if (messengerRegExp.test(pathname)) {
+      const pathnameSplits = pathname.split('/');
+      const parameter = pathnameSplits[pathnameSplits.length - 1];
+      this.parameter = parameter;
+      return this.routes.find((route) => route.match(Routes.Messenger));
+    }
     return this.routes.find((route) => route.match(pathname));
+  }
+
+  public getParameter() {
+    return this.parameter;
   }
 }
 

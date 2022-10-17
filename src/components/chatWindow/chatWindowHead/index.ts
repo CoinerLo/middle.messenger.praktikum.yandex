@@ -4,6 +4,7 @@ import { PopupWindow } from '../../popupWindow';
 import { PopupWindowButton } from '../../popupWindowButton';
 import itemMenuAdd from '../../../../static/itemMenuAdd.png';
 import itemMenuDel from '../../../../static/itemMenuDel.png';
+import itemMenuDelChat from '../../../../static/itemMenuDelChat.svg';
 import ChatsController from '../../../controllers/ChatsController';
 import { isEqual } from '../../../utils/helpers';
 import { ModalWindow } from '../../modalWindow';
@@ -81,7 +82,7 @@ export class ChatWindowHead extends Block<ChatWindowHeadProps> {
 
     this.children.popupWindow = new PopupWindow({
       right: 0,
-      bottom: -100,
+      bottom: -140,
       menuItems: [{
         image: itemMenuAdd,
         title: 'Добавить пользователя',
@@ -91,7 +92,7 @@ export class ChatWindowHead extends Block<ChatWindowHeadProps> {
         title: 'Удалить пользователя',
         events: { click: this.openModalDelUserFromChat.bind(this) },
       }, {
-        image: '',
+        image: itemMenuDelChat,
         title: 'Удалить чат',
         events: { click: () => this.deleteChat() },
       }],

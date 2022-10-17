@@ -1,4 +1,4 @@
-import { SignUpData } from '../../api/AuthApi';
+import { SignUpData } from '../../api/AuthApi/AuthTypes';
 import { Form } from '../../components/form';
 import AuthController from '../../controllers/AuthController';
 import Block from '../../utils/Block';

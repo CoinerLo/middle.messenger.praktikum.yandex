@@ -28,6 +28,7 @@ export class MessageController {
       await item;
 
       this.sendMessage({ type: 'get old', content: '0' }, chat_id);
+      store.set(`pages.${chat_id}`, { pageNumber: 0, isThisLast: false });
     } catch (e) {
       logger.error(e);
     }
@@ -36,8 +37,17 @@ export class MessageController {
   addMessage(data: MessageI[] | MessageI) {
     const { currentChatId, messanges } = store.getState() as StateI;
 
-    if (Array.isArray(data)) {
-      store.set(`messanges.${currentChatId}`, data);
+    if (Array.isArray(data) && currentChatId) {
+      if (messanges && messanges[currentChatId]) {
+        const dataWithMessanges = [...messanges[currentChatId], ...data];
+        store.set(`messanges.${currentChatId}`, dataWithMessanges);
+      } else {
+        store.set(`messanges.${currentChatId}`, data);
+      }
+
+      if (data.length < 20) {
+        store.set(`pages.${currentChatId}.isThisLast`, true);
+      }
     } else if (currentChatId) {
       const newData = [data, ...messanges[currentChatId]];
       store.set(`messanges.${currentChatId}`, newData);
@@ -60,8 +70,18 @@ export class MessageController {
     }
   }
 
+  getOldMessage(id: number) {
+    const { pages } = store.getState() as StateI;
+    const { pageNumber, isThisLast } = pages[id];
+
+    if (!isThisLast) {
+      const nextPage = pageNumber + 1;
+      this.sendMessage({ type: 'get old', content: nextPage * 20 }, id);
+      store.set(`pages.${id}.pageNumber`, nextPage);
+    }
+  }
+
   deleteSocket(id: number) {
-    // MEMORY: При добавлении функции пинг-понг - здесь будем её останавливать
     this.managerSockets[id].close('Вы вышли');
     delete this.managerSockets[id];
   }
