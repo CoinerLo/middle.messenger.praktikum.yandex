@@ -79,7 +79,7 @@ export class ChatWindowContentBase extends Block<ChatWindowContentProps> {
 
 const withChat = withStore((state) => ({
   currentChatId: state.currentChatId,
-  messages: state.currentChatId && state.messanges ? state.messanges[state.currentChatId] : [],
+  messages: state.currentChatId && state.messages ? state.messages[state.currentChatId] : [],
 }));
 
 export const ChatWindowContent = withChat(ChatWindowContentBase);
