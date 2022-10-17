@@ -30,24 +30,19 @@ export class ChatsController {
   }
 
   checkAndSetParameterInRoute() {
-    const parameter = router.getParameter();
-    if (parameter === null) {
-      store.set('currentChatId', parameter);
-      return parameter;
+    const chatId = router.getParameter();
+    if (chatId === null) {
+      store.set('currentChatId', chatId);
+      return chatId;
     }
-    const validatedId = this.validateChatId(Number(parameter));
+    const validatedId = this.validateChatId(Number(chatId));
     store.set('currentChatId', validatedId);
     return validatedId;
   }
 
   toGoToChatById(id: number | string | null) {
-    if (id === null) {
-      store.set('currentChatId', null);
-      router.go(Routes.Messenger, null);
-    } else {
-      store.set('currentChatId', id);
-      router.go(Routes.Messenger, Number(id));
-    }
+    store.set('currentChatId', id);
+    router.go(Routes.Messenger, Number(id));
   }
 
   validateChatId(id: number) {
@@ -59,7 +54,7 @@ export class ChatsController {
   async createChat(name: string) {
     try {
       const { id } = await this.api.createChat(name);
-      store.set(`messanges.${id}`, []);
+      store.set(`messages.${id}`, []);
       this.toGoToChatById(id);
       this.fetchChats();
     } catch (e) {
@@ -71,7 +66,7 @@ export class ChatsController {
   async deleteChat(id: number) {
     try {
       await this.api.deleteChatById(id);
-      store.set(`messanges.${id}`, []);
+      store.set(`messages.${id}`, []);
       store.set(`pages.${id}`, {});
       MessageController.deleteSocket(id);
       this.toGoToChatById(null);

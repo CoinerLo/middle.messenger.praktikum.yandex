@@ -35,22 +35,22 @@ export class MessageController {
   }
 
   addMessage(data: MessageI[] | MessageI) {
-    const { currentChatId, messanges } = store.getState() as StateI;
+    const { currentChatId, messages } = store.getState() as StateI;
 
     if (Array.isArray(data) && currentChatId) {
-      if (messanges && messanges[currentChatId]) {
-        const dataWithMessanges = [...messanges[currentChatId], ...data];
-        store.set(`messanges.${currentChatId}`, dataWithMessanges);
+      if (messages && messages[currentChatId]) {
+        const dataWithMessages = [...messages[currentChatId], ...data];
+        store.set(`messages.${currentChatId}`, dataWithMessages);
       } else {
-        store.set(`messanges.${currentChatId}`, data);
+        store.set(`messages.${currentChatId}`, data);
       }
 
       if (data.length < 20) {
         store.set(`pages.${currentChatId}.isThisLast`, true);
       }
     } else if (currentChatId) {
-      const newData = [data, ...messanges[currentChatId]];
-      store.set(`messanges.${currentChatId}`, newData);
+      const newData = [data, ...messages[currentChatId]];
+      store.set(`messages.${currentChatId}`, newData);
     }
   }
 

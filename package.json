@@ -10,8 +10,8 @@
     "lint": "npx eslint .",
     "style": "npx stylelint \"**/*.scss\"",
     "prepare": "husky install",
-    "docker_prod": "docker compose --file docker-compose.yml up",
-    "docker_dev": "docker compose --file docker-compose.dev.yml up"
+    "docker:prod": "docker compose --file docker-compose.yml up",
+    "docker:dev": "docker compose --file docker-compose.dev.yml up"
   },
   "repository": {
     "type": "git",

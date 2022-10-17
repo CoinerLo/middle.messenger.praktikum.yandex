@@ -48,6 +48,6 @@ export interface StateI {
   user: UserI,
   chats: ChatI[],
   currentChatId: number | null,
-  messanges: Record<string, MessageI[]>,
+  messages: Record<string, MessageI[]>,
   pages: Record<string, PagesCount>,
 }
